@@ -42,7 +42,7 @@ Just use the CMS. If prodder sees one of your channels is stale and that you are
 
 ## Prodder Roadmap
 
-* Daily customisable email notifications
+* Nothing else planned
 
 ## Prodder Changelog
 
