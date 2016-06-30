@@ -2,6 +2,14 @@
   {
     "version": "1.0.1",
     "downloadUrl": "https://github.com/billythekid/prodder/archive/master.zip",
+    "date": "2016-06-30T12:48:00.063Z",
+    "notes": [
+      "[Fixed] Bug if channels had no valid entries in them."
+    ]
+  },
+  {
+    "version": "1.0.1",
+    "downloadUrl": "https://github.com/billythekid/prodder/archive/1.0.1.zip",
     "date": "2016-06-30T12:25:00.063Z",
     "notes": [
       "[Improved] Added daily email prods",
