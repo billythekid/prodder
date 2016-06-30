@@ -42,14 +42,17 @@ class ProdderService extends BaseApplicationComponent
                     $criteria->order   = 'postDate desc';
                     $criteria->limit   = 1;
                     $entry             = $criteria->first();
-                    $diff              = Carbon::now()->diffInDays(Carbon::createFromTimestamp($entry->postDate->getTimestamp()));
-
-                    if ($diff >= $settings->prodDelay[$channel])
+                    if ($entry)
                     {
-                        //only send an email once a day
-                        if ($this->isChannelDue($channel))
+                        $diff = Carbon::now()->diffInDays(Carbon::createFromTimestamp($entry->postDate->getTimestamp()));
+
+                        if ($diff >= $settings->prodDelay[$channel])
                         {
-                            $this->sendEmail($user, $channel, $settings, $diff);
+                            //only send an email once a day
+                            if ($this->isChannelDue($channel))
+                            {
+                                $this->sendEmail($user, $channel, $settings, $diff);
+                            }
                         }
                     }
                 }

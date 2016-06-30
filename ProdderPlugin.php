@@ -284,16 +284,19 @@ class ProdderPlugin extends BasePlugin
             $criteria->order   = 'postDate desc';
             $criteria->limit   = 1;
             $entry             = $criteria->first();
-            $diff              = Carbon::now()->diffInDays(Carbon::createFromTimestamp($entry->postDate->getTimestamp()));
-
-            // let's just squawk about one channel at a time for performance and to stop nagging the guy
-            // who wants to write a ton of content at a time? not him that's who.
-            if ($diff >= $settings->prodDelay[$channel])
+            if ($entry)
             {
-                $message = "<p>This is a gentle prod to get some new content in the <strong>{$channel}</strong> channel.</p>";
-                $message .= "<p>You're supposed to update {$channel} within {$settings->prodDelay[$channel]} days of the last entry, and it's been {$diff} days.</p>";
+                $diff = Carbon::now()->diffInDays(Carbon::createFromTimestamp($entry->postDate->getTimestamp()));
 
-                return array($message);
+                // let's just squawk about one channel at a time for performance and to stop nagging the guy
+                // who wants to write a ton of content at a time? not him that's who.
+                if ($diff >= $settings->prodDelay[$channel])
+                {
+                    $message = "<p>This is a gentle prod to get some new content in the <strong>{$channel}</strong> channel.</p>";
+                    $message .= "<p>You're supposed to update {$channel} within {$settings->prodDelay[$channel]} days of the last entry, and it's been {$diff} days.</p>";
+
+                    return array($message);
+                }
             }
         }
 
