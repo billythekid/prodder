@@ -46,6 +46,10 @@ Just use the CMS. If prodder sees one of your channels is stale and that you are
 
 ## Prodder Changelog
 
+### 1.0.2 -- 2016.06.30
+
+* Fixed bug where channels with no valid entries (disabled or whatever) were squawking
+
 ### 1.0.1 -- 2016.06.30
 
 * Added email functionality
