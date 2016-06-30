@@ -2,6 +2,7 @@
   "name": "billythekid/prodder",
   "description": "This plugin sends you a friendly email reminder about stagnating channels.",
   "type": "craft-plugin",
+  "license" : "MIT",
   "authors": [
     {
       "name": "Billy Fagan",
