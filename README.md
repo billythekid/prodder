@@ -27,6 +27,13 @@ Click on Prodder's settings button from the plugin installation page or from the
 * Prod if last entry older than…?: Choose the number of days before this channel is considered stale.
 * Activate prods for this channel?: Whether to include this channel when checking if you need a prod.
 
+If you are running Craft Client or Craft Pro editions you will be able to modify the email message used by Prodder. Find this in your email settings.
+The following variables are available for you in the email message:
+* user - This is the user model being sent the email
+* channel - The channel handle that's stale.
+* days - The number of days that pas before this channel is considered stale.
+* difference - The number of days since there was an entry in the channel.
+
 ## Using Prodder
 
 Just use the CMS. If prodder sees one of your channels is stale and that you are the person who needs to know that, it'll tell you. It won't go away until you've updated the channel.
@@ -36,6 +43,11 @@ Just use the CMS. If prodder sees one of your channels is stale and that you are
 * Daily customisable email notifications
 
 ## Prodder Changelog
+
+### 1.0.1 -- 2016.06.30
+
+* Added email functionality
+* Fixed bug where all users were being notified
 
 ### 1.0.0 -- 2016.06.29
 
