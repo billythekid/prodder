@@ -20,6 +20,8 @@ Prodder works on Craft 2.4.x and Craft 2.5.x.
 Prodder is designed to give you a slightly annoying but not too intrusive warning that your content isn't as fresh as you'd like it.
 Content is king right? Nobody wants a smelly old king. We like out kings fragrant and fresh.
 
+Prodder also sends the user selected to look after a channel a daily email prod if they've not updated it.
+
 ## Configuring Prodder
 
 Click on Prodder's settings button from the plugin installation page or from the settings page (2.5+). In here you will see any channels listed (Prodder only checks channels, no singles or structures) where you can set up your "prod" criteria.
