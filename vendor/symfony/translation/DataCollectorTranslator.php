@@ -16,8 +16,8 @@ namespace Symfony\Component\Translation;
  */
 class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInterface
 {
-    const MESSAGE_DEFINED         = 0;
-    const MESSAGE_MISSING         = 1;
+    const MESSAGE_DEFINED = 0;
+    const MESSAGE_MISSING = 1;
     const MESSAGE_EQUALS_FALLBACK = 2;
 
     /**
@@ -35,8 +35,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
      */
     public function __construct(TranslatorInterface $translator)
     {
-        if (!$translator instanceof TranslatorBagInterface)
-        {
+        if (!$translator instanceof TranslatorBagInterface) {
             throw new \InvalidArgumentException(sprintf('The Translator "%s" must implement TranslatorInterface and TranslatorBagInterface.', get_class($translator)));
         }
 
@@ -115,45 +114,39 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
      */
     private function collectMessage($locale, $domain, $id, $translation, $parameters = array(), $number = null)
     {
-        if (null === $domain)
-        {
+        if (null === $domain) {
             $domain = 'messages';
         }
 
-        $id        = (string)$id;
+        $id = (string) $id;
         $catalogue = $this->translator->getCatalogue($locale);
-        $locale    = $catalogue->getLocale();
-        if ($catalogue->defines($id, $domain))
-        {
+        $locale = $catalogue->getLocale();
+        if ($catalogue->defines($id, $domain)) {
             $state = self::MESSAGE_DEFINED;
-        } elseif ($catalogue->has($id, $domain))
-        {
+        } elseif ($catalogue->has($id, $domain)) {
             $state = self::MESSAGE_EQUALS_FALLBACK;
 
             $fallbackCatalogue = $catalogue->getFallBackCatalogue();
-            while ($fallbackCatalogue)
-            {
-                if ($fallbackCatalogue->defines($id, $domain))
-                {
+            while ($fallbackCatalogue) {
+                if ($fallbackCatalogue->defines($id, $domain)) {
                     $locale = $fallbackCatalogue->getLocale();
                     break;
                 }
 
                 $fallbackCatalogue = $fallbackCatalogue->getFallBackCatalogue();
             }
-        } else
-        {
+        } else {
             $state = self::MESSAGE_MISSING;
         }
 
         $this->messages[] = array(
-            'locale'            => $locale,
-            'domain'            => $domain,
-            'id'                => $id,
-            'translation'       => $translation,
-            'parameters'        => $parameters,
+            'locale' => $locale,
+            'domain' => $domain,
+            'id' => $id,
+            'translation' => $translation,
+            'parameters' => $parameters,
             'transChoiceNumber' => $number,
-            'state'             => $state,
+            'state' => $state,
         );
     }
 }

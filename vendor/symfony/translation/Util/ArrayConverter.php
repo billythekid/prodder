@@ -30,14 +30,14 @@ class ArrayConverter
      * For example this rray('foo.bar' => 'value') will be converted to array('foo' => array('bar' => 'value')).
      *
      * @param array $messages Linear messages array
+     *
      * @return array Tree-like messages array
      */
     public static function expandToTree(array $messages)
     {
         $tree = array();
 
-        foreach ($messages as $id => $value)
-        {
+        foreach ($messages as $id => $value) {
             $referenceToElement = &self::getElementByPath($tree, explode('.', $id));
 
             $referenceToElement = $value;
@@ -50,13 +50,11 @@ class ArrayConverter
 
     private static function &getElementByPath(array &$tree, array $parts)
     {
-        $elem         = &$tree;
+        $elem = &$tree;
         $parentOfElem = null;
 
-        foreach ($parts as $i => $part)
-        {
-            if (isset($elem[$part]) && is_string($elem[$part]))
-            {
+        foreach ($parts as $i => $part) {
+            if (isset($elem[$part]) && is_string($elem[$part])) {
                 /* Process next case:
                  *    'foo': 'test1',
                  *    'foo.bar': 'test2'
@@ -64,15 +62,14 @@ class ArrayConverter
                  * $tree['foo'] was string before we found array {bar: test2}.
                  *  Treat new element as string too, e.g. add $tree['foo.bar'] = 'test2';
                  */
-                $elem = &$elem[implode('.', array_slice($parts, $i))];
+                $elem = &$elem[ implode('.', array_slice($parts, $i)) ];
                 break;
             }
             $parentOfElem = &$elem;
-            $elem         = &$elem[$part];
+            $elem = &$elem[$part];
         }
 
-        if (is_array($elem) && count($elem) > 0 && $parentOfElem)
-        {
+        if (is_array($elem) && count($elem) > 0 && $parentOfElem) {
             /* Process next case:
              *    'foo.bar': 'test1'
              *    'foo': 'test2'
@@ -91,14 +88,11 @@ class ArrayConverter
     {
         $prefix .= '.';
 
-        foreach ($node as $id => $value)
-        {
-            if (is_string($value))
-            {
-                $tree[$prefix . $id] = $value;
-            } else
-            {
-                self::cancelExpand($tree, $prefix . $id, $value);
+        foreach ($node as $id => $value) {
+            if (is_string($value)) {
+                $tree[$prefix.$id] = $value;
+            } else {
+                self::cancelExpand($tree, $prefix.$id, $value);
             }
         }
     }

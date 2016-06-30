@@ -25,27 +25,24 @@ class PluralizationRules
      *
      * @param int    $number The number
      * @param string $locale The locale
+     *
      * @return int The plural position
      */
     public static function get($number, $locale)
     {
-        if ('pt_BR' === $locale)
-        {
+        if ('pt_BR' === $locale) {
             // temporary set a locale for brazilian
             $locale = 'xbr';
         }
 
-        if (strlen($locale) > 3)
-        {
+        if (strlen($locale) > 3) {
             $locale = substr($locale, 0, -strlen(strrchr($locale, '_')));
         }
 
-        if (isset(self::$rules[$locale]))
-        {
+        if (isset(self::$rules[$locale])) {
             $return = call_user_func(self::$rules[$locale], $number);
 
-            if (!is_int($return) || $return < 0)
-            {
+            if (!is_int($return) || $return < 0) {
                 return 0;
             }
 
@@ -57,8 +54,7 @@ class PluralizationRules
          * which is subject to the new BSD license (http://framework.zend.com/license/new-bsd).
          * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
          */
-        switch ($locale)
-        {
+        switch ($locale) {
             case 'az':
             case 'bo':
             case 'dz':
@@ -199,14 +195,12 @@ class PluralizationRules
      */
     public static function set(callable $rule, $locale)
     {
-        if ('pt_BR' === $locale)
-        {
+        if ('pt_BR' === $locale) {
             // temporary set a locale for brazilian
             $locale = 'xbr';
         }
 
-        if (strlen($locale) > 3)
-        {
+        if (strlen($locale) > 3) {
             $locale = substr($locale, 0, -strlen(strrchr($locale, '_')));
         }
 

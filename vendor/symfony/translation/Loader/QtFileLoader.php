@@ -29,21 +29,17 @@ class QtFileLoader implements LoaderInterface
      */
     public function load($resource, $locale, $domain = 'messages')
     {
-        if (!stream_is_local($resource))
-        {
+        if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
 
-        if (!file_exists($resource))
-        {
+        if (!file_exists($resource)) {
             throw new NotFoundResourceException(sprintf('File "%s" not found.', $resource));
         }
 
-        try
-        {
+        try {
             $dom = XmlUtils::loadFile($resource);
-        } catch (\InvalidArgumentException $e)
-        {
+        } catch (\InvalidArgumentException $e) {
             throw new InvalidResourceException(sprintf('Unable to load "%s".', $resource), $e->getCode(), $e);
         }
 
@@ -51,20 +47,17 @@ class QtFileLoader implements LoaderInterface
         libxml_clear_errors();
 
         $xpath = new \DOMXPath($dom);
-        $nodes = $xpath->evaluate('//TS/context/name[text()="' . $domain . '"]');
+        $nodes = $xpath->evaluate('//TS/context/name[text()="'.$domain.'"]');
 
         $catalogue = new MessageCatalogue($locale);
-        if ($nodes->length == 1)
-        {
+        if ($nodes->length == 1) {
             $translations = $nodes->item(0)->nextSibling->parentNode->parentNode->getElementsByTagName('message');
-            foreach ($translations as $translation)
-            {
-                $translationValue = (string)$translation->getElementsByTagName('translation')->item(0)->nodeValue;
+            foreach ($translations as $translation) {
+                $translationValue = (string) $translation->getElementsByTagName('translation')->item(0)->nodeValue;
 
-                if (!empty($translationValue))
-                {
+                if (!empty($translationValue)) {
                     $catalogue->set(
-                        (string)$translation->getElementsByTagName('source')->item(0)->nodeValue,
+                        (string) $translation->getElementsByTagName('source')->item(0)->nodeValue,
                         $translationValue,
                         $domain
                     );
@@ -72,8 +65,7 @@ class QtFileLoader implements LoaderInterface
                 $translation = $translation->nextSibling;
             }
 
-            if (class_exists('Symfony\Component\Config\Resource\FileResource'))
-            {
+            if (class_exists('Symfony\Component\Config\Resource\FileResource')) {
                 $catalogue->addResource(new FileResource($resource));
             }
         }

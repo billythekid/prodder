@@ -19,8 +19,10 @@ class PoFileLoader extends FileLoader
 {
     /**
      * Parses portable object (PO) format.
+     *
      * From http://www.gnu.org/software/gettext/manual/gettext.html#PO-Files
      * we should be able to parse files having:
+     *
      * white-space
      * #  translator-comments
      * #. extracted-comments
@@ -29,10 +31,13 @@ class PoFileLoader extends FileLoader
      * #| msgid previous-untranslated-string
      * msgid untranslated-string
      * msgstr translated-string
+     *
      * extra or different lines are:
+     *
      * #| msgctxt previous-context
      * #| msgid previous-untranslated-string
      * msgctxt context
+     *
      * #| msgid previous-untranslated-string-singular
      * #| msgid_plural previous-untranslated-string-plural
      * msgid untranslated-string-singular
@@ -40,15 +45,19 @@ class PoFileLoader extends FileLoader
      * msgstr[0] translated-string-case-0
      * ...
      * msgstr[N] translated-string-case-n
+     *
      * The definition states:
      * - white-space and comments are optional.
      * - msgid "" that an empty singleline defines a header.
+     *
      * This parser sacrifices some features of the reference implementation the
      * differences to that implementation are as follows.
      * - No support for comments spanning multiple lines.
      * - Translator and extracted comments are treated as being the same type.
      * - Message IDs are allowed to have other encodings as just US-ASCII.
+     *
      * Items with an empty id are ignored.
+     *
      * {@inheritdoc}
      */
     protected function loadResource($resource)
@@ -56,64 +65,52 @@ class PoFileLoader extends FileLoader
         $stream = fopen($resource, 'r');
 
         $defaults = array(
-            'ids'        => array(),
+            'ids' => array(),
             'translated' => null,
         );
 
         $messages = array();
-        $item     = $defaults;
-        $flags    = array();
+        $item = $defaults;
+        $flags = array();
 
-        while ($line = fgets($stream))
-        {
+        while ($line = fgets($stream)) {
             $line = trim($line);
 
-            if ($line === '')
-            {
+            if ($line === '') {
                 // Whitespace indicated current item is done
-                if (!in_array('fuzzy', $flags))
-                {
+                if (!in_array('fuzzy', $flags)) {
                     $this->addMessage($messages, $item);
                 }
-                $item  = $defaults;
+                $item = $defaults;
                 $flags = array();
-            } elseif (substr($line, 0, 2) === '#,')
-            {
+            } elseif (substr($line, 0, 2) === '#,') {
                 $flags = array_map('trim', explode(',', substr($line, 2)));
-            } elseif (substr($line, 0, 7) === 'msgid "')
-            {
+            } elseif (substr($line, 0, 7) === 'msgid "') {
                 // We start a new msg so save previous
                 // TODO: this fails when comments or contexts are added
                 $this->addMessage($messages, $item);
-                $item                    = $defaults;
+                $item = $defaults;
                 $item['ids']['singular'] = substr($line, 7, -1);
-            } elseif (substr($line, 0, 8) === 'msgstr "')
-            {
+            } elseif (substr($line, 0, 8) === 'msgstr "') {
                 $item['translated'] = substr($line, 8, -1);
-            } elseif ($line[0] === '"')
-            {
+            } elseif ($line[0] === '"') {
                 $continues = isset($item['translated']) ? 'translated' : 'ids';
 
-                if (is_array($item[$continues]))
-                {
+                if (is_array($item[$continues])) {
                     end($item[$continues]);
                     $item[$continues][key($item[$continues])] .= substr($line, 1, -1);
-                } else
-                {
+                } else {
                     $item[$continues] .= substr($line, 1, -1);
                 }
-            } elseif (substr($line, 0, 14) === 'msgid_plural "')
-            {
+            } elseif (substr($line, 0, 14) === 'msgid_plural "') {
                 $item['ids']['plural'] = substr($line, 14, -1);
-            } elseif (substr($line, 0, 7) === 'msgstr[')
-            {
-                $size                                         = strpos($line, ']');
-                $item['translated'][(int)substr($line, 7, 1)] = substr($line, $size + 3, -1);
+            } elseif (substr($line, 0, 7) === 'msgstr[') {
+                $size = strpos($line, ']');
+                $item['translated'][(int) substr($line, 7, 1)] = substr($line, $size + 3, -1);
             }
         }
         // save last item
-        if (!in_array('fuzzy', $flags))
-        {
+        if (!in_array('fuzzy', $flags)) {
             $this->addMessage($messages, $item);
         }
         fclose($stream);
@@ -123,6 +120,7 @@ class PoFileLoader extends FileLoader
 
     /**
      * Save a translation item to the messages.
+     *
      * A .po file could contain by error missing plural indexes. We need to
      * fix these before saving them.
      *
@@ -131,11 +129,9 @@ class PoFileLoader extends FileLoader
      */
     private function addMessage(array &$messages, array $item)
     {
-        if (is_array($item['translated']))
-        {
+        if (is_array($item['translated'])) {
             $messages[stripcslashes($item['ids']['singular'])] = stripcslashes($item['translated'][0]);
-            if (isset($item['ids']['plural']))
-            {
+            if (isset($item['ids']['plural'])) {
                 $plurals = $item['translated'];
                 // PO are by definition indexed so sort by index.
                 ksort($plurals);
@@ -148,8 +144,7 @@ class PoFileLoader extends FileLoader
                 ksort($plurals);
                 $messages[stripcslashes($item['ids']['plural'])] = stripcslashes(implode('|', $plurals));
             }
-        } elseif (!empty($item['ids']['singular']))
-        {
+        } elseif (!empty($item['ids']['singular'])) {
             $messages[stripcslashes($item['ids']['singular'])] = stripcslashes($item['translated']);
         }
     }

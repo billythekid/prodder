@@ -20,8 +20,8 @@ class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
     {
         $catalogue = new MessageCatalogue('en_US');
         $catalogue->add(array(
-            'foo'            => 'bar',
-            'key'            => '',
+            'foo' => 'bar',
+            'key' => '',
             'key.with.cdata' => '<source> & <target>',
         ));
         $catalogue->setMetadata('foo', array('notes' => array(array('priority' => 1, 'from' => 'bar', 'content' => 'baz'))));
@@ -30,7 +30,7 @@ class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
         $dumper = new XliffFileDumper();
 
         $this->assertStringEqualsFile(
-            __DIR__ . '/../fixtures/resources-clean.xlf',
+            __DIR__.'/../fixtures/resources-clean.xlf',
             $dumper->formatCatalogue($catalogue, 'messages', array('default_locale' => 'fr_FR'))
         );
     }
@@ -39,8 +39,8 @@ class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
     {
         $catalogue = new MessageCatalogue('en_US');
         $catalogue->add(array(
-            'foo'            => 'bar',
-            'key'            => '',
+            'foo' => 'bar',
+            'key' => '',
             'key.with.cdata' => '<source> & <target>',
         ));
         $catalogue->setMetadata('key', array('target-attributes' => array('order' => 1)));
@@ -48,7 +48,7 @@ class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
         $dumper = new XliffFileDumper();
 
         $this->assertStringEqualsFile(
-            __DIR__ . '/../fixtures/resources-2.0-clean.xlf',
+            __DIR__.'/../fixtures/resources-2.0-clean.xlf',
             $dumper->formatCatalogue($catalogue, 'messages', array('default_locale' => 'fr_FR', 'xliff_version' => '2.0'))
         );
     }
@@ -57,7 +57,7 @@ class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'default_locale' => 'en_US',
-            'tool_info'      => array('tool-id' => 'foo', 'tool-name' => 'foo', 'tool-version' => '0.0', 'tool-company' => 'Foo'),
+            'tool_info' => array('tool-id' => 'foo', 'tool-name' => 'foo', 'tool-version' => '0.0', 'tool-company' => 'Foo'),
         );
 
         $catalogue = new MessageCatalogue('en_US');
@@ -66,7 +66,7 @@ class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
         $dumper = new XliffFileDumper();
 
         $this->assertStringEqualsFile(
-            __DIR__ . '/../fixtures/resources-tool-info.xlf',
+            __DIR__.'/../fixtures/resources-tool-info.xlf',
             $dumper->formatCatalogue($catalogue, 'messages', $options)
         );
     }
@@ -82,7 +82,7 @@ class XliffFileDumperTest extends \PHPUnit_Framework_TestCase
         $dumper = new XliffFileDumper();
 
         $this->assertStringEqualsFile(
-            __DIR__ . '/../fixtures/resources-target-attributes.xlf',
+            __DIR__.'/../fixtures/resources-target-attributes.xlf',
             $dumper->formatCatalogue($catalogue, 'messages', array('default_locale' => 'fr_FR'))
         );
     }

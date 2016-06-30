@@ -34,13 +34,12 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface
      */
     public function __construct(TranslatorInterface $translator, LoggerInterface $logger)
     {
-        if (!$translator instanceof TranslatorBagInterface)
-        {
+        if (!$translator instanceof TranslatorBagInterface) {
             throw new \InvalidArgumentException(sprintf('The Translator "%s" must implement TranslatorInterface and TranslatorBagInterface.', get_class($translator)));
         }
 
         $this->translator = $translator;
-        $this->logger     = $logger;
+        $this->logger = $logger;
     }
 
     /**
@@ -106,23 +105,19 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface
      */
     private function log($id, $domain, $locale)
     {
-        if (null === $domain)
-        {
+        if (null === $domain) {
             $domain = 'messages';
         }
 
-        $id        = (string)$id;
+        $id = (string) $id;
         $catalogue = $this->translator->getCatalogue($locale);
-        if ($catalogue->defines($id, $domain))
-        {
+        if ($catalogue->defines($id, $domain)) {
             return;
         }
 
-        if ($catalogue->has($id, $domain))
-        {
+        if ($catalogue->has($id, $domain)) {
             $this->logger->debug('Translation use fallback catalogue.', array('id' => $id, 'domain' => $domain, 'locale' => $catalogue->getLocale()));
-        } else
-        {
+        } else {
             $this->logger->warning('Translation not found.', array('id' => $id, 'domain' => $domain, 'locale' => $catalogue->getLocale()));
         }
     }

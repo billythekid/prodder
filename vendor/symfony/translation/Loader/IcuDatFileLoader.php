@@ -28,40 +28,33 @@ class IcuDatFileLoader extends IcuResFileLoader
      */
     public function load($resource, $locale, $domain = 'messages')
     {
-        if (!stream_is_local($resource . '.dat'))
-        {
+        if (!stream_is_local($resource.'.dat')) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
         }
 
-        if (!file_exists($resource . '.dat'))
-        {
+        if (!file_exists($resource.'.dat')) {
             throw new NotFoundResourceException(sprintf('File "%s" not found.', $resource));
         }
 
-        try
-        {
+        try {
             $rb = new \ResourceBundle($locale, $resource);
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             // HHVM compatibility: constructor throws on invalid resource
             $rb = null;
         }
 
-        if (!$rb)
-        {
+        if (!$rb) {
             throw new InvalidResourceException(sprintf('Cannot load resource "%s"', $resource));
-        } elseif (intl_is_failure($rb->getErrorCode()))
-        {
+        } elseif (intl_is_failure($rb->getErrorCode())) {
             throw new InvalidResourceException($rb->getErrorMessage(), $rb->getErrorCode());
         }
 
-        $messages  = $this->flatten($rb);
+        $messages = $this->flatten($rb);
         $catalogue = new MessageCatalogue($locale);
         $catalogue->add($messages, $domain);
 
-        if (class_exists('Symfony\Component\Config\Resource\FileResource'))
-        {
-            $catalogue->addResource(new FileResource($resource . '.dat'));
+        if (class_exists('Symfony\Component\Config\Resource\FileResource')) {
+            $catalogue->addResource(new FileResource($resource.'.dat'));
         }
 
         return $catalogue;

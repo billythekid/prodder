@@ -23,6 +23,6 @@ class IniFileDumperTest extends \PHPUnit_Framework_TestCase
 
         $dumper = new IniFileDumper();
 
-        $this->assertStringEqualsFile(__DIR__ . '/../fixtures/resources.ini', $dumper->formatCatalogue($catalogue, 'messages'));
+        $this->assertStringEqualsFile(__DIR__.'/../fixtures/resources.ini', $dumper->formatCatalogue($catalogue, 'messages'));
     }
 }

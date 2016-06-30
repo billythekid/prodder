@@ -18,8 +18,8 @@ class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoad()
     {
-        $loader    = new PhpFileLoader();
-        $resource  = __DIR__ . '/../fixtures/resources.php';
+        $loader = new PhpFileLoader();
+        $resource = __DIR__.'/../fixtures/resources.php';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         $this->assertEquals(array('foo' => 'bar'), $catalogue->all('domain1'));
@@ -32,8 +32,8 @@ class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadNonExistingResource()
     {
-        $loader   = new PhpFileLoader();
-        $resource = __DIR__ . '/../fixtures/non-existing.php';
+        $loader = new PhpFileLoader();
+        $resource = __DIR__.'/../fixtures/non-existing.php';
         $loader->load($resource, 'en', 'domain1');
     }
 
@@ -42,7 +42,7 @@ class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadThrowsAnExceptionIfFileNotLocal()
     {
-        $loader   = new PhpFileLoader();
+        $loader = new PhpFileLoader();
         $resource = 'http://example.com/resources.php';
         $loader->load($resource, 'en', 'domain1');
     }

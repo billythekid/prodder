@@ -23,6 +23,6 @@ class PoFileDumperTest extends \PHPUnit_Framework_TestCase
 
         $dumper = new PoFileDumper();
 
-        $this->assertStringEqualsFile(__DIR__ . '/../fixtures/resources.po', $dumper->formatCatalogue($catalogue, 'messages'));
+        $this->assertStringEqualsFile(__DIR__.'/../fixtures/resources.po', $dumper->formatCatalogue($catalogue, 'messages'));
     }
 }

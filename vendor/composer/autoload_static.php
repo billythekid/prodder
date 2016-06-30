@@ -6,48 +6,47 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit4b2c49c93483b9362bced79ab143c220
 {
-    public static $files = array(
+    public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
     );
 
-    public static $prefixLengthsPsr4 = array(
-        'S' =>
-            array(
-                'Symfony\\Polyfill\\Mbstring\\'     => 26,
-                'Symfony\\Component\\Translation\\' => 30,
-            ),
-        'C' =>
-            array(
-                'Composer\\Installers\\' => 20,
-                'Carbon\\'               => 7,
-            ),
+    public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\Translation\\' => 30,
+        ),
+        'C' => 
+        array (
+            'Composer\\Installers\\' => 20,
+            'Carbon\\' => 7,
+        ),
     );
 
-    public static $prefixDirsPsr4 = array(
-        'Symfony\\Polyfill\\Mbstring\\'     =>
-            array(
-                0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-            ),
-        'Symfony\\Component\\Translation\\' =>
-            array(
-                0 => __DIR__ . '/..' . '/symfony/translation',
-            ),
-        'Composer\\Installers\\'            =>
-            array(
-                0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
-            ),
-        'Carbon\\'                          =>
-            array(
-                0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
-            ),
+    public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\Translation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/translation',
+        ),
+        'Composer\\Installers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
+        ),
+        'Carbon\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
-        return \Closure::bind(function () use ($loader)
-        {
+        return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit4b2c49c93483b9362bced79ab143c220::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4    = ComposerStaticInit4b2c49c93483b9362bced79ab143c220::$prefixDirsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4b2c49c93483b9362bced79ab143c220::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

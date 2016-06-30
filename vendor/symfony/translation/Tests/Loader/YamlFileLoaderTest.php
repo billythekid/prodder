@@ -18,8 +18,8 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoad()
     {
-        $loader    = new YamlFileLoader();
-        $resource  = __DIR__ . '/../fixtures/resources.yml';
+        $loader = new YamlFileLoader();
+        $resource = __DIR__.'/../fixtures/resources.yml';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         $this->assertEquals(array('foo' => 'bar'), $catalogue->all('domain1'));
@@ -29,8 +29,8 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadDoesNothingIfEmpty()
     {
-        $loader    = new YamlFileLoader();
-        $resource  = __DIR__ . '/../fixtures/empty.yml';
+        $loader = new YamlFileLoader();
+        $resource = __DIR__.'/../fixtures/empty.yml';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         $this->assertEquals(array(), $catalogue->all('domain1'));
@@ -43,8 +43,8 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadNonExistingResource()
     {
-        $loader   = new YamlFileLoader();
-        $resource = __DIR__ . '/../fixtures/non-existing.yml';
+        $loader = new YamlFileLoader();
+        $resource = __DIR__.'/../fixtures/non-existing.yml';
         $loader->load($resource, 'en', 'domain1');
     }
 
@@ -53,7 +53,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadThrowsAnExceptionIfFileNotLocal()
     {
-        $loader   = new YamlFileLoader();
+        $loader = new YamlFileLoader();
         $resource = 'http://example.com/resources.yml';
         $loader->load($resource, 'en', 'domain1');
     }
@@ -63,8 +63,8 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadThrowsAnExceptionIfNotAnArray()
     {
-        $loader   = new YamlFileLoader();
-        $resource = __DIR__ . '/../fixtures/non-valid.yml';
+        $loader = new YamlFileLoader();
+        $resource = __DIR__.'/../fixtures/non-valid.yml';
         $loader->load($resource, 'en', 'domain1');
     }
 }

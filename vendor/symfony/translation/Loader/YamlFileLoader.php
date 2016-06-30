@@ -29,21 +29,17 @@ class YamlFileLoader extends FileLoader
      */
     protected function loadResource($resource)
     {
-        if (null === $this->yamlParser)
-        {
-            if (!class_exists('Symfony\Component\Yaml\Parser'))
-            {
+        if (null === $this->yamlParser) {
+            if (!class_exists('Symfony\Component\Yaml\Parser')) {
                 throw new \LogicException('Loading translations from the YAML format requires the Symfony Yaml component.');
             }
 
             $this->yamlParser = new YamlParser();
         }
 
-        try
-        {
+        try {
             $messages = $this->yamlParser->parse(file_get_contents($resource));
-        } catch (ParseException $e)
-        {
+        } catch (ParseException $e) {
             throw new InvalidResourceException(sprintf('Error parsing YAML, invalid file "%s"', $resource), 0, $e);
         }
 

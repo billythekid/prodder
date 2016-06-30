@@ -29,25 +29,25 @@ class ArrayConverterTest extends \PHPUnit_Framework_TestCase
             array(
                 // input
                 array(
-                    'foo1'    => 'bar',
+                    'foo1' => 'bar',
                     'foo.bar' => 'value',
                 ),
                 // expected output
                 array(
                     'foo1' => 'bar',
-                    'foo'  => array('bar' => 'value'),
+                    'foo' => array('bar' => 'value'),
                 ),
             ),
             array(
                 // input
                 array(
-                    'foo.bar'      => 'value1',
+                    'foo.bar' => 'value1',
                     'foo.bar.test' => 'value2',
                 ),
                 // expected output
                 array(
                     'foo' => array(
-                        'bar'      => 'value1',
+                        'bar' => 'value1',
                         'bar.test' => 'value2',
                     ),
                 ),
@@ -56,15 +56,15 @@ class ArrayConverterTest extends \PHPUnit_Framework_TestCase
                 // input
                 array(
                     'foo.level2.level3.level4' => 'value1',
-                    'foo.level2'               => 'value2',
-                    'foo.bar'                  => 'value3',
+                    'foo.level2' => 'value2',
+                    'foo.bar' => 'value3',
                 ),
                 // expected output
                 array(
                     'foo' => array(
-                        'level2'               => 'value2',
+                        'level2' => 'value2',
                         'level2.level3.level4' => 'value1',
-                        'bar'                  => 'value3',
+                        'bar' => 'value3',
                     ),
                 ),
             ),

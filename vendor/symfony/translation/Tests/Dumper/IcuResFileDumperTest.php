@@ -23,6 +23,6 @@ class IcuResFileDumperTest extends \PHPUnit_Framework_TestCase
 
         $dumper = new IcuResFileDumper();
 
-        $this->assertStringEqualsFile(__DIR__ . '/../fixtures/resourcebundle/res/en.res', $dumper->formatCatalogue($catalogue, 'messages'));
+        $this->assertStringEqualsFile(__DIR__.'/../fixtures/resourcebundle/res/en.res', $dumper->formatCatalogue($catalogue, 'messages'));
     }
 }

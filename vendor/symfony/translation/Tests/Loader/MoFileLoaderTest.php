@@ -18,8 +18,8 @@ class MoFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoad()
     {
-        $loader    = new MoFileLoader();
-        $resource  = __DIR__ . '/../fixtures/resources.mo';
+        $loader = new MoFileLoader();
+        $resource = __DIR__.'/../fixtures/resources.mo';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         $this->assertEquals(array('foo' => 'bar'), $catalogue->all('domain1'));
@@ -29,8 +29,8 @@ class MoFileLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadPlurals()
     {
-        $loader    = new MoFileLoader();
-        $resource  = __DIR__ . '/../fixtures/plurals.mo';
+        $loader = new MoFileLoader();
+        $resource = __DIR__.'/../fixtures/plurals.mo';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         $this->assertEquals(array('foo' => 'bar', 'foos' => '{0} bar|{1} bars'), $catalogue->all('domain1'));
@@ -43,8 +43,8 @@ class MoFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadNonExistingResource()
     {
-        $loader   = new MoFileLoader();
-        $resource = __DIR__ . '/../fixtures/non-existing.mo';
+        $loader = new MoFileLoader();
+        $resource = __DIR__.'/../fixtures/non-existing.mo';
         $loader->load($resource, 'en', 'domain1');
     }
 
@@ -53,15 +53,15 @@ class MoFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadInvalidResource()
     {
-        $loader   = new MoFileLoader();
-        $resource = __DIR__ . '/../fixtures/empty.mo';
+        $loader = new MoFileLoader();
+        $resource = __DIR__.'/../fixtures/empty.mo';
         $loader->load($resource, 'en', 'domain1');
     }
 
     public function testLoadEmptyTranslation()
     {
-        $loader    = new MoFileLoader();
-        $resource  = __DIR__ . '/../fixtures/empty-translation.mo';
+        $loader = new MoFileLoader();
+        $resource = __DIR__.'/../fixtures/empty-translation.mo';
         $catalogue = $loader->load($resource, 'en', 'message');
 
         $this->assertEquals(array(), $catalogue->all('message'));

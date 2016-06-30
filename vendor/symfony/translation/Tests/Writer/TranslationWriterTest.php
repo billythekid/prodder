@@ -32,7 +32,7 @@ class TranslationWriterTest extends \PHPUnit_Framework_TestCase
     public function testDisableBackup()
     {
         $nonBackupDumper = new NonBackupDumper();
-        $backupDumper    = new BackupDumper();
+        $backupDumper = new BackupDumper();
 
         $writer = new TranslationWriter();
         $writer->addDumper('non_backup', $nonBackupDumper);

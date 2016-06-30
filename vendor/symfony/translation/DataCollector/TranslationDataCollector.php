@@ -42,7 +42,7 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
     {
         $messages = $this->sanitizeCollectedMessages($this->translator->getCollectedMessages());
 
-        $this->data             = $this->computeCount($messages);
+        $this->data = $this->computeCount($messages);
         $this->data['messages'] = $messages;
     }
 
@@ -96,20 +96,16 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
     private function sanitizeCollectedMessages($messages)
     {
         $result = array();
-        foreach ($messages as $key => $message)
-        {
-            $messageId = $message['locale'] . $message['domain'] . $message['id'];
+        foreach ($messages as $key => $message) {
+            $messageId = $message['locale'].$message['domain'].$message['id'];
 
-            if (!isset($result[$messageId]))
-            {
-                $message['count']              = 1;
-                $message['parameters']         = !empty($message['parameters']) ? array($message['parameters']) : array();
+            if (!isset($result[$messageId])) {
+                $message['count'] = 1;
+                $message['parameters'] = !empty($message['parameters']) ? array($message['parameters']) : array();
                 $messages[$key]['translation'] = $this->sanitizeString($message['translation']);
-                $result[$messageId]            = $message;
-            } else
-            {
-                if (!empty($message['parameters']))
-                {
+                $result[$messageId] = $message;
+            } else {
+                if (!empty($message['parameters'])) {
                     $result[$messageId]['parameters'][] = $message['parameters'];
                 }
 
@@ -125,13 +121,12 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
     private function computeCount($messages)
     {
         $count = array(
-            DataCollectorTranslator::MESSAGE_DEFINED         => 0,
-            DataCollectorTranslator::MESSAGE_MISSING         => 0,
+            DataCollectorTranslator::MESSAGE_DEFINED => 0,
+            DataCollectorTranslator::MESSAGE_MISSING => 0,
             DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK => 0,
         );
 
-        foreach ($messages as $message)
-        {
+        foreach ($messages as $message) {
             ++$count[$message['state']];
         }
 
@@ -142,15 +137,12 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
     {
         $string = trim(preg_replace('/\s+/', ' ', $string));
 
-        if (false !== $encoding = mb_detect_encoding($string, null, true))
-        {
-            if (mb_strlen($string, $encoding) > $length)
-            {
-                return mb_substr($string, 0, $length - 3, $encoding) . '...';
+        if (false !== $encoding = mb_detect_encoding($string, null, true)) {
+            if (mb_strlen($string, $encoding) > $length) {
+                return mb_substr($string, 0, $length - 3, $encoding).'...';
             }
-        } elseif (strlen($string) > $length)
-        {
-            return substr($string, 0, $length - 3) . '...';
+        } elseif (strlen($string) > $length) {
+            return substr($string, 0, $length - 3).'...';
         }
 
         return $string;

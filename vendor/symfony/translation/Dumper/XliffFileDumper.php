@@ -26,25 +26,20 @@ class XliffFileDumper extends FileDumper
     public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
     {
         $xliffVersion = '1.2';
-        if (array_key_exists('xliff_version', $options))
-        {
+        if (array_key_exists('xliff_version', $options)) {
             $xliffVersion = $options['xliff_version'];
         }
 
-        if (array_key_exists('default_locale', $options))
-        {
+        if (array_key_exists('default_locale', $options)) {
             $defaultLocale = $options['default_locale'];
-        } else
-        {
+        } else {
             $defaultLocale = \Locale::getDefault();
         }
 
-        if ('1.2' === $xliffVersion)
-        {
+        if ('1.2' === $xliffVersion) {
             return $this->dumpXliff1($defaultLocale, $messages, $domain, $options);
         }
-        if ('2.0' === $xliffVersion)
-        {
+        if ('2.0' === $xliffVersion) {
             return $this->dumpXliff2($defaultLocale, $messages, $domain, $options);
         }
 
@@ -62,12 +57,11 @@ class XliffFileDumper extends FileDumper
     private function dumpXliff1($defaultLocale, MessageCatalogue $messages, $domain, array $options = array())
     {
         $toolInfo = array('tool-id' => 'symfony', 'tool-name' => 'Symfony');
-        if (array_key_exists('tool_info', $options))
-        {
+        if (array_key_exists('tool_info', $options)) {
             $toolInfo = array_merge($toolInfo, $options['tool_info']);
         }
 
-        $dom               = new \DOMDocument('1.0', 'utf-8');
+        $dom = new \DOMDocument('1.0', 'utf-8');
         $dom->formatOutput = true;
 
         $xliff = $dom->appendChild($dom->createElement('xliff'));
@@ -82,14 +76,12 @@ class XliffFileDumper extends FileDumper
 
         $xliffHead = $xliffFile->appendChild($dom->createElement('header'));
         $xliffTool = $xliffHead->appendChild($dom->createElement('tool'));
-        foreach ($toolInfo as $id => $value)
-        {
+        foreach ($toolInfo as $id => $value) {
             $xliffTool->setAttribute($id, $value);
         }
 
         $xliffBody = $xliffFile->appendChild($dom->createElement('body'));
-        foreach ($messages->all($domain) as $source => $target)
-        {
+        foreach ($messages->all($domain) as $source => $target) {
             $translation = $dom->createElement('trans-unit');
 
             $translation->setAttribute('id', md5($source));
@@ -102,36 +94,29 @@ class XliffFileDumper extends FileDumper
             $text = 1 === preg_match('/[&<>]/', $target) ? $dom->createCDATASection($target) : $dom->createTextNode($target);
 
             $targetElement = $dom->createElement('target');
-            $metadata      = $messages->getMetadata($source, $domain);
-            if ($this->hasMetadataArrayInfo('target-attributes', $metadata))
-            {
-                foreach ($metadata['target-attributes'] as $name => $value)
-                {
+            $metadata = $messages->getMetadata($source, $domain);
+            if ($this->hasMetadataArrayInfo('target-attributes', $metadata)) {
+                foreach ($metadata['target-attributes'] as $name => $value) {
                     $targetElement->setAttribute($name, $value);
                 }
             }
             $t = $translation->appendChild($targetElement);
             $t->appendChild($text);
 
-            if ($this->hasMetadataArrayInfo('notes', $metadata))
-            {
-                foreach ($metadata['notes'] as $note)
-                {
-                    if (!isset($note['content']))
-                    {
+            if ($this->hasMetadataArrayInfo('notes', $metadata)) {
+                foreach ($metadata['notes'] as $note) {
+                    if (!isset($note['content'])) {
                         continue;
                     }
 
                     $n = $translation->appendChild($dom->createElement('note'));
                     $n->appendChild($dom->createTextNode($note['content']));
 
-                    if (isset($note['priority']))
-                    {
+                    if (isset($note['priority'])) {
                         $n->setAttribute('priority', $note['priority']);
                     }
 
-                    if (isset($note['from']))
-                    {
+                    if (isset($note['from'])) {
                         $n->setAttribute('from', $note['from']);
                     }
                 }
@@ -145,7 +130,7 @@ class XliffFileDumper extends FileDumper
 
     private function dumpXliff2($defaultLocale, MessageCatalogue $messages, $domain, array $options = array())
     {
-        $dom               = new \DOMDocument('1.0', 'utf-8');
+        $dom = new \DOMDocument('1.0', 'utf-8');
         $dom->formatOutput = true;
 
         $xliff = $dom->appendChild($dom->createElement('xliff'));
@@ -155,10 +140,9 @@ class XliffFileDumper extends FileDumper
         $xliff->setAttribute('trgLang', str_replace('_', '-', $messages->getLocale()));
 
         $xliffFile = $xliff->appendChild($dom->createElement('file'));
-        $xliffFile->setAttribute('id', $domain . '.' . $messages->getLocale());
+        $xliffFile->setAttribute('id', $domain.'.'.$messages->getLocale());
 
-        foreach ($messages->all($domain) as $source => $target)
-        {
+        foreach ($messages->all($domain) as $source => $target) {
             $translation = $dom->createElement('unit');
             $translation->setAttribute('id', md5($source));
 
@@ -171,11 +155,9 @@ class XliffFileDumper extends FileDumper
             $text = 1 === preg_match('/[&<>]/', $target) ? $dom->createCDATASection($target) : $dom->createTextNode($target);
 
             $targetElement = $dom->createElement('target');
-            $metadata      = $messages->getMetadata($source, $domain);
-            if ($this->hasMetadataArrayInfo('target-attributes', $metadata))
-            {
-                foreach ($metadata['target-attributes'] as $name => $value)
-                {
+            $metadata = $messages->getMetadata($source, $domain);
+            if ($this->hasMetadataArrayInfo('target-attributes', $metadata)) {
+                foreach ($metadata['target-attributes'] as $name => $value) {
                     $targetElement->setAttribute($name, $value);
                 }
             }
@@ -191,6 +173,7 @@ class XliffFileDumper extends FileDumper
     /**
      * @param string     $key
      * @param array|null $metadata
+     *
      * @return bool
      */
     private function hasMetadataArrayInfo($key, $metadata = null)

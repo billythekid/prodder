@@ -26,44 +26,43 @@ class MoFileDumper extends FileDumper
      */
     public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
     {
-        $output  = $sources = $targets = $sourceOffsets = $targetOffsets = '';
+        $output = $sources = $targets = $sourceOffsets = $targetOffsets = '';
         $offsets = array();
-        $size    = 0;
+        $size = 0;
 
-        foreach ($messages->all($domain) as $source => $target)
-        {
+        foreach ($messages->all($domain) as $source => $target) {
             $offsets[] = array_map('strlen', array($sources, $source, $targets, $target));
-            $sources .= "\0" . $source;
-            $targets .= "\0" . $target;
+            $sources .= "\0".$source;
+            $targets .= "\0".$target;
             ++$size;
         }
 
         $header = array(
-            'magicNumber'      => MoFileLoader::MO_LITTLE_ENDIAN_MAGIC,
-            'formatRevision'   => 0,
-            'count'            => $size,
-            'offsetId'         => MoFileLoader::MO_HEADER_SIZE,
+            'magicNumber' => MoFileLoader::MO_LITTLE_ENDIAN_MAGIC,
+            'formatRevision' => 0,
+            'count' => $size,
+            'offsetId' => MoFileLoader::MO_HEADER_SIZE,
             'offsetTranslated' => MoFileLoader::MO_HEADER_SIZE + (8 * $size),
-            'sizeHashes'       => 0,
-            'offsetHashes'     => MoFileLoader::MO_HEADER_SIZE + (16 * $size),
+            'sizeHashes' => 0,
+            'offsetHashes' => MoFileLoader::MO_HEADER_SIZE + (16 * $size),
         );
 
-        $sourcesSize  = strlen($sources);
+        $sourcesSize = strlen($sources);
         $sourcesStart = $header['offsetHashes'] + 1;
 
-        foreach ($offsets as $offset)
-        {
+        foreach ($offsets as $offset) {
             $sourceOffsets .= $this->writeLong($offset[1])
-                . $this->writeLong($offset[0] + $sourcesStart);
+                          .$this->writeLong($offset[0] + $sourcesStart);
             $targetOffsets .= $this->writeLong($offset[3])
-                . $this->writeLong($offset[2] + $sourcesStart + $sourcesSize);
+                          .$this->writeLong($offset[2] + $sourcesStart + $sourcesSize);
         }
 
         $output = implode(array_map(array($this, 'writeLong'), $header))
-            . $sourceOffsets
-            . $targetOffsets
-            . $sources
-            . $targets;
+               .$sourceOffsets
+               .$targetOffsets
+               .$sources
+               .$targets
+                ;
 
         return $output;
     }

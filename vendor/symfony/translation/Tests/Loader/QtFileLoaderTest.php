@@ -18,8 +18,8 @@ class QtFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoad()
     {
-        $loader    = new QtFileLoader();
-        $resource  = __DIR__ . '/../fixtures/resources.ts';
+        $loader = new QtFileLoader();
+        $resource = __DIR__.'/../fixtures/resources.ts';
         $catalogue = $loader->load($resource, 'en', 'resources');
 
         $this->assertEquals(array('foo' => 'bar'), $catalogue->all('resources'));
@@ -32,8 +32,8 @@ class QtFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadNonExistingResource()
     {
-        $loader   = new QtFileLoader();
-        $resource = __DIR__ . '/../fixtures/non-existing.ts';
+        $loader = new QtFileLoader();
+        $resource = __DIR__.'/../fixtures/non-existing.ts';
         $loader->load($resource, 'en', 'domain1');
     }
 
@@ -42,7 +42,7 @@ class QtFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadNonLocalResource()
     {
-        $loader   = new QtFileLoader();
+        $loader = new QtFileLoader();
         $resource = 'http://domain1.com/resources.ts';
         $loader->load($resource, 'en', 'domain1');
     }
@@ -52,15 +52,15 @@ class QtFileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadInvalidResource()
     {
-        $loader   = new QtFileLoader();
-        $resource = __DIR__ . '/../fixtures/invalid-xml-resources.xlf';
+        $loader = new QtFileLoader();
+        $resource = __DIR__.'/../fixtures/invalid-xml-resources.xlf';
         $loader->load($resource, 'en', 'domain1');
     }
 
     public function testLoadEmptyResource()
     {
-        $loader   = new QtFileLoader();
-        $resource = __DIR__ . '/../fixtures/empty.xlf';
+        $loader = new QtFileLoader();
+        $resource = __DIR__.'/../fixtures/empty.xlf';
         $this->setExpectedException('Symfony\Component\Translation\Exception\InvalidResourceException', sprintf('Unable to load "%s".', $resource));
         $loader->load($resource, 'en', 'domain1');
     }

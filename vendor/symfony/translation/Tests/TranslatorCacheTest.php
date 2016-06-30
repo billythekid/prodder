@@ -23,7 +23,7 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->tmpDir = sys_get_temp_dir() . '/sf2_translation';
+        $this->tmpDir = sys_get_temp_dir().'/sf2_translation';
         $this->deleteTmpDir();
     }
 
@@ -34,23 +34,18 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
 
     protected function deleteTmpDir()
     {
-        if (!file_exists($dir = $this->tmpDir))
-        {
+        if (!file_exists($dir = $this->tmpDir)) {
             return;
         }
 
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->tmpDir), \RecursiveIteratorIterator::CHILD_FIRST);
-        foreach ($iterator as $path)
-        {
-            if (preg_match('#[/\\\\]\.\.?$#', $path->__toString()))
-            {
+        foreach ($iterator as $path) {
+            if (preg_match('#[/\\\\]\.\.?$#', $path->__toString())) {
                 continue;
             }
-            if ($path->isDir())
-            {
+            if ($path->isDir()) {
                 rmdir($path->__toString());
-            } else
-            {
+            } else {
                 unlink($path->__toString());
             }
         }
@@ -64,7 +59,7 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
     {
         $locale = 'any_locale';
         $format = 'some_format';
-        $msgid  = 'test';
+        $msgid = 'test';
 
         // Prime the cache
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
@@ -76,7 +71,7 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
         $translator->addLoader($format, $this->createFailingLoader());
         $translator->addResource($format, array($msgid => 'OK'), $locale);
-        $this->assertEquals('OK', $translator->trans($msgid), '-> caching does not work in ' . ($debug ? 'debug' : 'production'));
+        $this->assertEquals('OK', $translator->trans($msgid), '-> caching does not work in '.($debug ? 'debug' : 'production'));
     }
 
     public function testCatalogueIsReloadedWhenResourcesAreNoLongerFresh()
@@ -94,7 +89,7 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
 
         $locale = 'any_locale';
         $format = 'some_format';
-        $msgid  = 'test';
+        $msgid = 'test';
 
         $catalogue = new MessageCatalogue($locale, array());
         $catalogue->addResource(new StaleResource()); // better use a helper class than a mock, because it gets serialized in the cache and re-loaded
@@ -104,7 +99,8 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
         $loader
             ->expects($this->exactly(2))
             ->method('load')
-            ->will($this->returnValue($catalogue));
+            ->will($this->returnValue($catalogue))
+        ;
 
         // 1st pass
         $translator = new Translator($locale, null, $this->tmpDir, true);
@@ -131,7 +127,7 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
 
         $locale = 'any_locale';
         $format = 'some_format';
-        $msgid  = 'test';
+        $msgid = 'test';
 
         // Create a Translator and prime its cache
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
@@ -149,7 +145,7 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
         $translator->addLoader($format, $this->createFailingLoader());
         $translator->addResource($format, array($msgid => 'OK'), $locale);
-        $this->assertEquals('OK', $translator->trans($msgid), '-> the cache was overwritten by another translator instance in ' . ($debug ? 'debug' : 'production'));
+        $this->assertEquals('OK', $translator->trans($msgid), '-> the cache was overwritten by another translator instance in '.($debug ? 'debug' : 'production'));
     }
 
     public function testDifferentCacheFilesAreUsedForDifferentSetsOfFallbackLocales()
@@ -233,7 +229,7 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
     public function testRefreshCacheWhenResourcesAreNoLongerFresh()
     {
         $resource = $this->getMock('Symfony\Component\Config\Resource\SelfCheckingResourceInterface');
-        $loader   = $this->getMock('Symfony\Component\Translation\Loader\LoaderInterface');
+        $loader = $this->getMock('Symfony\Component\Translation\Loader\LoaderInterface');
         $resource->method('isFresh')->will($this->returnValue(false));
         $loader
             ->expects($this->exactly(2))
@@ -256,12 +252,10 @@ class TranslatorCacheTest extends \PHPUnit_Framework_TestCase
     protected function getCatalogue($locale, $messages, $resources = array())
     {
         $catalogue = new MessageCatalogue($locale);
-        foreach ($messages as $key => $translation)
-        {
+        foreach ($messages as $key => $translation) {
             $catalogue->set($key, $translation);
         }
-        foreach ($resources as $resource)
-        {
+        foreach ($resources as $resource) {
             $catalogue->addResource($resource);
         }
 

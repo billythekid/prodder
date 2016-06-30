@@ -129,7 +129,7 @@ class MessageCatalogueTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFallbackCatalogueWithParentCircularReference()
     {
-        $main     = new MessageCatalogue('en_US');
+        $main = new MessageCatalogue('en_US');
         $fallback = new MessageCatalogue('fr_FR');
 
         $fallback->addFallbackCatalogue($main);
@@ -162,7 +162,7 @@ class MessageCatalogueTest extends \PHPUnit_Framework_TestCase
     public function testGetAddResource()
     {
         $catalogue = new MessageCatalogue('en');
-        $r         = $this->getMock('Symfony\Component\Config\Resource\ResourceInterface');
+        $r = $this->getMock('Symfony\Component\Config\Resource\ResourceInterface');
         $r->expects($this->any())->method('__toString')->will($this->returnValue('r'));
         $catalogue->addResource($r);
         $catalogue->addResource($r);

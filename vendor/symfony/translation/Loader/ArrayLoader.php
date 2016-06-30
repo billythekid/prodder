@@ -34,10 +34,12 @@ class ArrayLoader implements LoaderInterface
 
     /**
      * Flattens an nested array of translations.
+     *
      * The scheme used is:
      *   'key' => array('key2' => array('key3' => 'value'))
      * Becomes:
      *   'key.key2.key3' => 'value'
+     *
      * This function takes an array by reference and will modify it
      *
      * @param array  &$messages The array that will be flattened
@@ -46,23 +48,18 @@ class ArrayLoader implements LoaderInterface
      */
     private function flatten(array &$messages, array $subnode = null, $path = null)
     {
-        if (null === $subnode)
-        {
+        if (null === $subnode) {
             $subnode = &$messages;
         }
-        foreach ($subnode as $key => $value)
-        {
-            if (is_array($value))
-            {
-                $nodePath = $path ? $path . '.' . $key : $key;
+        foreach ($subnode as $key => $value) {
+            if (is_array($value)) {
+                $nodePath = $path ? $path.'.'.$key : $key;
                 $this->flatten($messages, $value, $nodePath);
-                if (null === $path)
-                {
+                if (null === $path) {
                     unset($messages[$key]);
                 }
-            } elseif (null !== $path)
-            {
-                $messages[$path . '.' . $key] = $value;
+            } elseif (null !== $path) {
+                $messages[$path.'.'.$key] = $value;
             }
         }
     }
