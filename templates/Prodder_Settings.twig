@@ -1,0 +1,63 @@
+{#
+/**
+ * Prodder plugin for Craft CMS
+ *
+ * Prodder Settings.twig
+ *
+ * @author    Billy Fagan
+ * @copyright Copyright (c) 2016 Billy Fagan
+ * @link      https://billyfagan.co.uk
+ * @package   Prodder
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% includeCssResource "prodder/css/Prodder_Style.css" %}
+{% includeJsResource "prodder/js/Prodder_Script.js" %}
+
+{% if editableSections|length %}
+  <div id="defaults">
+    <table class="data fullwidth">
+      <thead>
+      <th>Channel</th>
+      <th>Send prod to</th>
+      <th>Prod if last entry older than…?</th>
+      <th>Activate prods for this channel?</th>
+      </thead>
+      {% for handle, sectionData in editableSections %}
+        <tr>
+          <td>{{ sectionData['section'].name }}</td>
+          <td>{% if sectionData['sendToOptions'] is defined and sectionData['sendToOptions']|length > 0 %}
+              {{ forms.select({
+                id: "sendToAuthors[" ~ handle ~ "]",
+                name: "sendToAuthors[" ~ handle ~ "]",
+                options: sectionData['sendToOptions'],
+                value: (settings.sendToAuthors[handle] is defined and settings.sendToAuthors[handle] is not empty ? settings.sendToAuthors[handle] : null)
+              }) }}
+            {% else %}
+              No available authors.
+            {% endif %}
+          </td>
+          <td>
+            {{ forms.text({
+              type: 'number',
+              size: 3,
+              name: "prodDelay[" ~ handle ~ "]",
+              value:   (settings.prodDelay[handle] is defined ? settings.prodDelay[handle] : 7),
+            }) }} day(s)
+          </td>
+          <td>
+            {{ forms.lightswitch({
+              name: "active[" ~ handle ~ "]",
+              on:   (settings.active[handle] is defined ? settings.active[handle] : false),
+            }) }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% else %}
+  No sections available.
+{% endif %}
