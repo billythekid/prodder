@@ -11,5 +11,7 @@
  */
 
 return array(
-    'Translate me' => 'To this',
+    'Prod_heading' => 'When someone is sent a prod to update a channel',
+    'Prod_subject' => "A gentle prod from {{ siteName }} ",
+    'Prod_body' => "Hey {{ user.friendlyName }},\n\nThis is a gentle prod to get some new content in the {{ channel }} channel.\n\nYou're supposed to update {{ channel }} within {{ days }} days of the last entry, and it's been {{ difference }} days.",
 );

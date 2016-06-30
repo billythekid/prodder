@@ -36,6 +36,18 @@ class ProdderPlugin extends BasePlugin
     public function init()
     {
         require_once __DIR__ . '/vendor/autoload.php';
+        craft()->prodder->prepChannels();
+        craft()->prodder->sendProdEmails();
+    }
+
+    /**
+     * All the settings stuff, like email messages, come from this translation
+     *
+     * @return string
+     */
+    public function getSourceLanguage()
+    {
+        return 'en';
     }
 
     /**
@@ -102,7 +114,7 @@ class ProdderPlugin extends BasePlugin
      */
     public function getSchemaVersion()
     {
-        return '1.0.0';
+        return '1.0.1';
     }
 
     /**
@@ -262,25 +274,7 @@ class ProdderPlugin extends BasePlugin
     {
         $currentUser = craft()->userSession->user;
         $settings    = $this->getSettings();
-//        Craft::dd($settings);
-
-        // get all channel slugs we want to look through
-        $active = array_keys(
-            array_filter($settings->active, function ($value)
-            {
-                return !empty($value);
-            })
-        );
-
-        // get all the channels that this user is to be prodded about
-        $users = array_keys(
-            array_filter($settings->sendToAuthors, function ($value) use ($currentUser)
-            {
-                return $value = $currentUser->id;
-            })
-        );
-        // get an array of channels(handles) we should check now, these are active and for this user.
-        $channels = array_intersect($active, $users);
+        $channels    = craft()->prodder->getProdChannelsForUser($currentUser);
 
         //check the last entries in each channel
         foreach ($channels as $channel)
@@ -306,4 +300,16 @@ class ProdderPlugin extends BasePlugin
         return null;
     }
 
+
+    /**
+     * Tells Craft we have email messages that the user can modify.
+     *
+     * @return array
+     */
+    public function registerEmailMessages()
+    {
+        return array(
+            'Prod',
+        );
+    }
 }
