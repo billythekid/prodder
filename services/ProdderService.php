@@ -24,6 +24,7 @@ class ProdderService extends BaseApplicationComponent
 
     /**
      * Checks if any prod emails are to be sent and sends them.
+     *
      * @throws Exception
      */
     public function sendProdEmails()
@@ -71,6 +72,10 @@ class ProdderService extends BaseApplicationComponent
     public function getProdChannelsForUser(UserModel $user)
     {
         $settings = craft()->plugins->getPlugin('prodder')->getSettings();
+        if (is_null($settings->active))
+        {
+            return array();
+        }
 
         // get all channels we want to look through
         $active = array_keys(
@@ -90,6 +95,7 @@ class ProdderService extends BaseApplicationComponent
 
         // get an array of channels(handles) we should check now, these are active and for this user.
         return array_intersect($active, $users);
+
     }
 
     /**

@@ -1,7 +1,15 @@
 [
   {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "downloadUrl": "https://github.com/billythekid/prodder/archive/master.zip",
+    "date": "2016-09-13T12:08:00.063Z",
+    "notes": [
+      "[Fixed] Bug where installing plugin errored out if devMode was enabled."
+    ]
+  },
+  {
+    "version": "1.0.2",
+    "downloadUrl": "https://github.com/billythekid/prodder/archive/1.0.2.zip",
     "date": "2016-06-30T12:48:00.063Z",
     "notes": [
       "[Fixed] Bug if channels had no valid entries in them."
