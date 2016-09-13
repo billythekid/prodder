@@ -46,6 +46,10 @@ Just use the CMS. If prodder sees one of your channels is stale and that you are
 
 ## Prodder Changelog
 
+### 1.0.3 -- 2016.09.13
+
+* Fixed bug installing while Craft's devMode config option was set to true cause install to fail.
+
 ### 1.0.2 -- 2016.06.30
 
 * Fixed bug where channels with no valid entries (disabled or whatever) were squawking
