@@ -18,7 +18,7 @@ Prodder works on Craft 2.4.x and Craft 2.5.x.
 ## Prodder Overview
 
 Prodder is designed to give you a slightly annoying but not too intrusive warning that your content isn't as fresh as you'd like it.
-Content is king right? Nobody wants a smelly old king. We like out kings fragrant and fresh.
+Content is king right? Nobody wants a smelly old king. We like our kings fragrant and fresh.
 
 Prodder also sends the user selected to look after a channel a daily email prod if they've not updated it.
 
